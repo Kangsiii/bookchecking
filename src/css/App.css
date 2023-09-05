@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center; /* 가운데 정렬 */
+    min-height: 100vh; /* 화면 전체 높이 */
+    background-color: #f0f0f0; /* 배경색 설정 */
+  }
+  
+  .app-container {
+    background-color: #eee; /* 컨테이너 배경색 설정 */
+    padding: 20px; /* 내부 여백 설정 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    max-width: 400px; /* 최대 너비 설정 */
+    width: 100%; /* 너비 100%로 설정 */
+  }

@@ -1,0 +1,30 @@
+도서관리프로그램....
+도서검색 대출 회원정보 로그인 인기도서 예약 반납 연체 연장 회원관리 신규도서 도서관리(폐기)
+
+db테이블
+
+user 테이블 (사용자 정보 저장):
+
+user_id (고유 사용자 식별자, Primary Key)
+username (사용자 이름)
+password (비밀번호, 해싱 및 암호화 필요)
+email (이메일 주소)
+is_admin (관리자 여부, 불리언 형태)
+
+
+book 테이블 (책 정보 저장):
+
+book_id (고유 책 식별자, Primary Key)
+book_name (책 이름)
+book_info (책 정보)
+quantity (현재 남아있는 책의 수)
+
+
+loan 테이블 (대여 정보 저장):
+
+loan_id (대여 식별자, Primary Key)
+user_id (빌린 사용자의 ID, 외래 키 참조)
+book_id (빌린 책의 ID, 외래 키 참조)
+borrowed_date (대여한 날짜)
+due_date (반납 예정 날짜)
+return_date (실제 반납 날짜)
