@@ -6,6 +6,7 @@ body {
     align-items: center; /* 가운데 정렬 */
     min-height: 100vh; /* 화면 전체 높이 */
     background-color: #f0f0f0; /* 배경색 설정 */
+    
   }
   
   .app-container {
@@ -15,4 +16,21 @@ body {
     border-radius: 8px; /* 모서리 둥글게 */
     max-width: 400px; /* 최대 너비 설정 */
     width: 100%; /* 너비 100%로 설정 */
+    font-family: "SCD";
+    font-weight: bolder;
+    width: 500px;
+    height: 250px;
+  }
+
+  @font-face {
+    font-family: "garam";
+    src: url(../Asset/garam.ttf);
+  }
+  button {
+    font-family: "SCD";
+    font-weight:bolder;
+  }
+  @font-face {
+    font-family: "SCD";
+    src: url(../Asset/SCDream6.otf);
   }

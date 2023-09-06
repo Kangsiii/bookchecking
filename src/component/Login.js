@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './css/Login.css';
 
 function Login() {
+  const handleSignin = () => {
+    window.history.pushState({}, '', '/Signup');
+    window.location.reload(); // 페이지 새로고침
+  }
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginType, setLoginType] = useState(0); 
@@ -10,6 +15,8 @@ function Login() {
 
   const handleLogin = () =>  {
     setLoginType(0);
+
+  
 
     axios.post('http://localhost:3004/userlogin', { username, password, loginType})
       .then((response) => {
@@ -34,8 +41,8 @@ function Login() {
     <div>
       <h2>사용자 로그인</h2>
       <form>
-        <div>
-          <label htmlFor="username">사용자 이름:</label>
+        <div className='form-container'>
+          <label htmlFor="username">사용자 이름 : </label>
           <input
             type="text"
             id="username"
@@ -44,18 +51,20 @@ function Login() {
           />
         </div>
         <div>
-          <label htmlFor="password">비밀번호:</label>
+          <label htmlFor="password">비밀번호 : </label>
           <input
             type="password"
             id="password"
+            style={{marginLeft:'4.9%', marginTop:'2%'}}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="button" onClick={handleLogin}>
+        <br></br>
+        <button type="button" className='loginbutton' onClick={handleLogin}>
           로그인
         </button>
-        <Link to="/signup">회원가입</Link>
+        <button className='loginbutton' onClick={handleSignin}>회원가입</button>
       </form>
     </div>
   );

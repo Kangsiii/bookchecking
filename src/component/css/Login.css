@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "garam";
+    src: url(../../Asset/garam.ttf);
+}
+
+.loginbutton {
+    margin-right:5px;
+}
+

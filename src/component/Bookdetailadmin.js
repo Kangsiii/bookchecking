@@ -73,9 +73,9 @@ function Bookdetailadmin() {
       <p>책 ID: {book.book_id}</p>
       <p>책 설명: {book.book_info}</p>
       <p>수량: {book.quantity}</p>
-      <button onClick={handleAddQuantity}>책 권수 늘리기</button>
-      <button onClick={handleDecreaseQuantity}>책 권수 줄이기</button>
-      <button onClick={handleDeleteBook}>책 삭제</button>
+      <button style={{marginRight:'2%'}} onClick={handleAddQuantity}>책 권수 늘리기</button>
+      <button style={{marginRight:'2%'}} onClick={handleDecreaseQuantity}>책 권수 줄이기</button>
+      <button style={{marginRight:'2%'}} onClick={handleDeleteBook}>책 삭제</button>
       <button onClick={handleGoBack}>이전페이지</button>
     </div>
   );

@@ -23,7 +23,7 @@ function Booklist() {
       <ul>
         {books.map((book) => (
           <li key={book.book_id}>
-            <a href={`/books/${book.book_id}`}>{book.book_name}</a>
+            <a style={{textDecoration:'none'}} href={`/books/${book.book_id}`}>{book.book_name}</a>
           </li>
         ))}
       </ul>
