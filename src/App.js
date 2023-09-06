@@ -8,6 +8,7 @@ import AdminLogin from './component/AdminLogin';
 import Adminmenu from './component/Adminmenu';
 import Booklist from './component/Booklist';
 import BookDetail from './component/Bookdetail';
+import Return from './component/Return';
 import './css/App.css';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/Adminmenu" element={<Adminmenu />} />
             <Route path="/Booklist" element={<Booklist />} />
             <Route path="/books/:bookId" Component={BookDetail}/>
+            <Route path="/Return" element={<Return />} />
           </Routes>
         </div>
       </div>

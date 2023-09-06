@@ -286,6 +286,53 @@ app.get('/books', (req, res) => {
     });
   });
   
+  app.get('/userInfo/:userId', (req, res) => {    
+    const userId = req.params.userId;
+  
+    // 데이터베이스에서 특정 사용자의 정보를 가져오는 쿼리
+    const query = `
+      SELECT username, email
+      FROM user
+      WHERE user_Id = ?
+    `;
+  
+    connection.query(query, [userId], (err, result) => {
+      if (err) {
+        console.error('사용자 정보 가져오기 오류:', err);
+        return res.status(500).json({ message: '사용자 정보 가져오기 오류' });
+      }
+  
+      if (result.length === 0) {
+        return res.status(404).json({ message: '사용자를 찾을 수 없음' });
+      }
+  
+      const userInfo = result[0];
+      res.status(200).json(userInfo);
+    });
+  });
+  
+  app.get('/borrowedBooks/:userId', (req, res) => {
+    const userId = req.params.userId;
+  
+    // 데이터베이스에서 해당 사용자가 대출한 책 목록을 가져오는 쿼리
+    const query = `
+      SELECT l.book_id, b.book_name, l.borrowed_date, l.due_date
+      FROM loan l
+      JOIN book b ON l.book_id = b.book_id
+      WHERE l.user_id = ?;
+    `;
+  
+    connection.query(query, [userId], (err, result) => {
+      if (err) {
+        console.error('대출한 책 목록 가져오기 오류:', err);
+        return res.status(500).json({ message: '대출한 책 목록 가져오기 오류' });
+      }
+  
+      res.status(200).json(result);
+    });
+  });
+  
+ 
 
 app.listen(PORT, () => {
   console.log(`서버가 ${PORT} 포트에서 시작되었습니다.`);

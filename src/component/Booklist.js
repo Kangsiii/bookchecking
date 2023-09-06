@@ -3,7 +3,9 @@ import axios from 'axios';
 
 function Booklist() {
   const [books, setBooks] = useState([]);
-
+  const handleGoBack = () => {
+    window.history.back();
+  };
   useEffect(() => {
     // 서버에서 책 목록을 가져오는 요청
     axios.get('http://localhost:3004/books')
@@ -25,6 +27,7 @@ function Booklist() {
           </li>
         ))}
       </ul>
+      <button onClick={handleGoBack}>이전페이지</button>
     </div>
   );
 }

@@ -6,7 +6,10 @@ function BookDetail() {
   const { bookId } = useParams(); // URL 파라미터에서 책 ID를 받아옴
   const [book, setBook] = useState(null);
   const [userId, setUserId] = useState(localStorage.getItem('userId')); // 로컬 스토리지에서 userId를 가져옴
-  
+ 
+  const handleGoBack = () => {
+    window.history.back();
+  };
   
 
   useEffect(() => {
@@ -71,6 +74,7 @@ function BookDetail() {
     }
   };
 
+
   
   if (!book) {
     return <div>Loading...</div>;
@@ -85,6 +89,7 @@ function BookDetail() {
       <button onClick={handleBorrow}>대출</button>
       <button onClick={handleReturn}>반납</button>
       <button onClick={handleExtension}>연장</button>
+      <button onClick={handleGoBack}>이전페이지</button>
     </div>
   );
 }
