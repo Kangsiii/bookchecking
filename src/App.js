@@ -8,7 +8,12 @@ import AdminLogin from './component/AdminLogin';
 import Adminmenu from './component/Adminmenu';
 import Booklist from './component/Booklist';
 import BookDetail from './component/Bookdetail';
+import Return from './component/Return';
+import Addbook from './component/Addbook';
+import Newbook from './component/Newbook';
+import Adminuser from './component/Adminuser';
 import './css/App.css';
+import Bookdetailadmin from './component/Bookdetailadmin';
 
 function App() {
   return (
@@ -24,6 +29,11 @@ function App() {
             <Route path="/Adminmenu" element={<Adminmenu />} />
             <Route path="/Booklist" element={<Booklist />} />
             <Route path="/books/:bookId" Component={BookDetail}/>
+            <Route path="/Return" element={<Return />} />
+            <Route path="/Addbook" element={<Addbook />} />
+            <Route path="/Newbook" element={<Newbook />} />
+            <Route path="/Adminuser" element={<Adminuser />} />
+            <Route path="/bookad/:bookId" Component={Bookdetailadmin}/>
           </Routes>
         </div>
       </div>

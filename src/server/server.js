@@ -257,16 +257,169 @@ app.get('/books', (req, res) => {
       WHERE user_id = ? AND book_id = ?;
     `;
   
-    // 연장 성공 시 응답
-    connection.query(extensionQuery, [userId, bookId], (err, result) => {
-      if (err) {
-        console.error('책 연장 실패:', err);
-        return res.status(500).json({ message: '책 연장 실패' });
+    // 연장 전에 대출 기록 확인
+    const checkLoanQuery = `
+      SELECT * FROM loan WHERE user_id = ? AND book_id = ?;
+    `;
+  
+    // 대출 기록 확인 쿼리 실행
+    connection.query(checkLoanQuery, [userId, bookId], (checkErr, checkResult) => {
+      if (checkErr) {
+        console.error('대출 기록 확인 실패:', checkErr);
+        return res.status(500).json({ message: '대출 기록 확인 실패' });
       }
-      res.status(200).json({ message: '책 연장 성공' });
+  
+      if (checkResult.length === 0) {
+        // 대출 기록이 없는 경우 연장을 허용하지 않음
+        console.error('대출 기록이 없습니다. 연장할 수 없습니다.');
+        return res.status(400).json({ message: '대출 기록이 없습니다. 연장할 수 없습니다.' });
+      }
+  
+      // 대출 기록이 있는 경우 연장을 실행
+      connection.query(extensionQuery, [userId, bookId], (err, result) => {
+        if (err) {
+          console.error('책 연장 실패:', err);
+          return res.status(500).json({ message: '책 연장 실패' });
+        }
+        res.status(200).json({ message: '책 연장 성공' });
+      });
     });
   });
   
+  app.get('/userInfo/:userId', (req, res) => {    
+    const userId = req.params.userId;
+  
+    // 데이터베이스에서 특정 사용자의 정보를 가져오는 쿼리
+    const query = `
+      SELECT username, email
+      FROM user
+      WHERE user_Id = ?
+    `;
+  
+    connection.query(query, [userId], (err, result) => {
+      if (err) {
+        console.error('사용자 정보 가져오기 오류:', err);
+        return res.status(500).json({ message: '사용자 정보 가져오기 오류' });
+      }
+  
+      if (result.length === 0) {
+        return res.status(404).json({ message: '사용자를 찾을 수 없음' });
+      }
+  
+      const userInfo = result[0];
+      res.status(200).json(userInfo);
+    });
+  });
+  
+  app.get('/borrowedBooks/:userId', (req, res) => {
+    const userId = req.params.userId;
+  
+    // 데이터베이스에서 해당 사용자가 대출한 책 목록을 가져오는 쿼리
+    const query = `
+      SELECT l.book_id, b.book_name, l.borrowed_date, l.due_date
+      FROM loan l
+      JOIN book b ON l.book_id = b.book_id
+      WHERE l.user_id = ?;
+    `;
+  
+    connection.query(query, [userId], (err, result) => {
+      if (err) {
+        console.error('대출한 책 목록 가져오기 오류:', err);
+        return res.status(500).json({ message: '대출한 책 목록 가져오기 오류' });
+      }
+  
+      res.status(200).json(result);
+    });
+  });
+
+  app.post('/addBook', (req, res) => {
+    // 클라이언트로부터 전달된 책 데이터
+    const { book_name, book_info, quantity } = req.body;
+  
+    // 데이터베이스에 책 추가 쿼리 실행
+    const insertBookQuery = `
+      INSERT INTO book (book_name, book_info, quantity)
+      VALUES (?, ?, ?);
+    `;
+  
+    connection.query(insertBookQuery, [book_name, book_info, quantity], (err, result) => {
+      if (err) {
+        console.error('책 추가 오류:', err);
+        return res.status(500).json({ message: '책 추가 실패' });
+      }
+  
+      console.log('책 추가 성공');
+      res.status(200).json({ message: '책 추가 성공' });
+    });
+  });
+
+  // 대출 기록 가져오기 엔드포인트
+app.get('/loanRecords', (req, res) => {
+  const query = `
+    SELECT u.username, b.book_name, l.borrowed_date, l.due_date
+    FROM loan l
+    JOIN user u ON l.user_id = u.user_id
+    JOIN book b ON l.book_id = b.book_id;
+  `;
+
+  connection.query(query, (err, result) => {
+    if (err) {
+      console.error('대출 기록 가져오기 오류:', err);
+      return res.status(500).json({ message: '대출 기록 가져오기 오류' });
+    }
+
+    res.status(200).json(result);
+  });
+});
+
+app.post('/addquantity/:bookId', (req, res) => {
+  const bookId = req.params.bookId;
+
+  // 책 정보를 가져와서 수량을 증가시키는 쿼리문 실행
+  const updateQuery = 'UPDATE book SET quantity = quantity + 1 WHERE book_id = ?';
+
+  connection.query(updateQuery, [bookId], (err, result) => {
+    if (err) {
+      console.error('책 수량 늘리기 오류:', err);
+      return res.status(500).json({ message: '책 수량 늘리기 오류' });
+    }
+    res.status(200).json({ message: '책 수량이 성공적으로 늘어났습니다.' });
+  });
+});
+
+// 책 수량 줄이기 (1권 감소)
+app.post('/decreasequantity/:bookId', (req, res) => {
+  const bookId = req.params.bookId;
+
+  // 책 정보를 가져와서 수량을 감소시키는 쿼리문 실행
+  const updateQuery = 'UPDATE book SET quantity = quantity - 1 WHERE book_id = ?';
+
+  connection.query(updateQuery, [bookId], (err, result) => {
+    if (err) {
+      console.error('책 수량 줄이기 오류:', err);
+      return res.status(500).json({ message: '책 수량 줄이기 오류' });
+    }
+    res.status(200).json({ message: '책 수량이 성공적으로 감소되었습니다.' });
+  });
+});
+
+// 책 삭제
+app.delete('/books/:bookId', (req, res) => {
+  const bookId = req.params.bookId;
+
+  // 책 정보를 삭제하는 쿼리문 실행
+  const deleteQuery = 'DELETE FROM book WHERE book_id = ?';
+
+  connection.query(deleteQuery, [bookId], (err, result) => {
+    if (err) {
+      console.error('책 삭제 오류:', err);
+      return res.status(500).json({ message: '책 삭제 오류' });
+    }
+    res.status(200).json({ message: '책이 성공적으로 삭제되었습니다.' });
+  });
+});
+  
+ 
 
 app.listen(PORT, () => {
   console.log(`서버가 ${PORT} 포트에서 시작되었습니다.`);

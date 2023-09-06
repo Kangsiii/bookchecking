@@ -19,17 +19,13 @@ function Adminmenu() {
   return (
     <div>
       <h2>{username}님 환영합니다</h2>
-      <ul>
-        <li>
+        <div>
           <button onClick={handleLogout}>홈(로그아웃)</button>
-        </li>
-        <li>
-          <button onClick={() => window.location.href = '/Booklistadmin'}>도서 목록(도서추가)</button>
-        </li>
-        <li>
-          <button onClick={() => window.location.href = '/Returnadmin'}>회원관리(연체관리)</button>
-        </li>
-      </ul>
+        <br></br>
+          <button onClick={() => window.location.href = '/Addbook'}>도서 목록(도서추가)</button>
+        <br></br>  
+          <button onClick={() => window.location.href = '/Adminuser'}>회원관리(연체관리)</button>
+        </div>
     </div>
   );
 }
