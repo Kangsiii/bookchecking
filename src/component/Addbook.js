@@ -24,14 +24,16 @@ function BookList() {
   return (
     <div>
       <h2>도서 목록</h2>
+      <br></br>
       <ul>
         {books.map((book) => (
           <li key={book.book_id}>
-            <a style={{textDecoration:'none'}} href={`/bookad/${book.book_id}`}>{book.book_name}</a> 
+            <a style={{textDecoration:'none', color:'black', backgroundColor:'#AAAAAA'}} href={`/bookad/${book.book_id}`}>{book.book_name}</a> 
             {/* 나중에 책 관리 페이지로 바꿀꺼임 */}
           </li>
         ))}
       </ul>
+      <br></br>
       <button style={{marginRight:'5px'}} onClick={Newbooks}>책 추가</button>
       <button onClick={handleGoBack}>이전페이지</button>
     </div>

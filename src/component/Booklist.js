@@ -19,14 +19,15 @@ function Booklist() {
 
   return (
     <div>
-      <h2>도서 목록</h2>
+      <h2>도서 목록</h2><br></br>
       <ul>
         {books.map((book) => (
           <li key={book.book_id}>
-            <a style={{textDecoration:'none'}} href={`/books/${book.book_id}`}>{book.book_name}</a>
+            <a style={{textDecoration:'none', marginBottom:'1%', color:'black', backgroundColor:'#AAAAAA'}} href={`/books/${book.book_id}`}>{book.book_name}</a>
           </li>
         ))}
       </ul>
+      <br></br>
       <button onClick={handleGoBack}>이전페이지</button>
     </div>
   );
