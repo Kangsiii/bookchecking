@@ -31,6 +31,8 @@ function BookDetail() {
       await axios.post(`http://localhost:3004/borrow/${bookId}`, { userId }); // userId를 함께 보냄
       // 대출 성공 메시지 또는 다른 작업 수행
         alert('책 대출 성공');
+        const updatedBook = await fetchBookDetail();
+        setBook(updatedBook);
     } catch (error) {
         alert('책 대출에 실패했습니다. (같은 책을 두권 이상 빌릴 수 없습니다.)', error);
     }
@@ -42,8 +44,10 @@ function BookDetail() {
       await axios.post(`http://localhost:3004/return/${bookId}`, { userId }); // userId를 함께 보냄
       // 반납 성공 메시지 또는 다른 작업 수행
         alert('책 반납 성공');
+        const updatedBook = await fetchBookDetail();
+        setBook(updatedBook);
     } catch (error) {
-        alert('책 반납에 실패했습니다.', error);
+        alert('책 반납에 실패했습니다.(대출 기록이 없는경우 반납이 불가능합니다.)', error);
     }
   };
 
@@ -54,10 +58,20 @@ function BookDetail() {
       // 연장 성공 메시지 또는 다른 작업 수행
       alert('대출 연장 성공');
     } catch (error) {
-      alert('대출 연장에 실패했습니다.', error);
+      alert('대출 연장에 실패했습니다.(대출 기록이 없는경우 연장이 불가능합니다.)', error);
+    }
+  };
+  const fetchBookDetail = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3004/books/${bookId}`);
+      return response.data;
+    } catch (error) {
+      console.error('책 정보를 불러오는데 실패했습니다.', error);
+      return null;
     }
   };
 
+  
   if (!book) {
     return <div>Loading...</div>;
   }

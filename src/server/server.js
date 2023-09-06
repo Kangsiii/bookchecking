@@ -257,13 +257,32 @@ app.get('/books', (req, res) => {
       WHERE user_id = ? AND book_id = ?;
     `;
   
-    // 연장 성공 시 응답
-    connection.query(extensionQuery, [userId, bookId], (err, result) => {
-      if (err) {
-        console.error('책 연장 실패:', err);
-        return res.status(500).json({ message: '책 연장 실패' });
+    // 연장 전에 대출 기록 확인
+    const checkLoanQuery = `
+      SELECT * FROM loan WHERE user_id = ? AND book_id = ?;
+    `;
+  
+    // 대출 기록 확인 쿼리 실행
+    connection.query(checkLoanQuery, [userId, bookId], (checkErr, checkResult) => {
+      if (checkErr) {
+        console.error('대출 기록 확인 실패:', checkErr);
+        return res.status(500).json({ message: '대출 기록 확인 실패' });
       }
-      res.status(200).json({ message: '책 연장 성공' });
+  
+      if (checkResult.length === 0) {
+        // 대출 기록이 없는 경우 연장을 허용하지 않음
+        console.error('대출 기록이 없습니다. 연장할 수 없습니다.');
+        return res.status(400).json({ message: '대출 기록이 없습니다. 연장할 수 없습니다.' });
+      }
+  
+      // 대출 기록이 있는 경우 연장을 실행
+      connection.query(extensionQuery, [userId, bookId], (err, result) => {
+        if (err) {
+          console.error('책 연장 실패:', err);
+          return res.status(500).json({ message: '책 연장 실패' });
+        }
+        res.status(200).json({ message: '책 연장 성공' });
+      });
     });
   });
   
