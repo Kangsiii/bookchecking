@@ -19,17 +19,13 @@ function Usermenu() {
   return (
     <div>
       <h2>{username}님 환영합니다</h2>
-      <ul>
-        <li>
+        <div>
           <button onClick={handleLogout}>홈(로그아웃)</button>
-        </li>
-        <li>
+        <br></br>
           <button onClick={() => window.location.href = '/Booklist'}>도서 목록(대출)</button>
-        </li>
-        <li>
+        <br></br>
           <button onClick={() => window.location.href = '/Return'}>마이페이지(반납 및 연장)</button>
-        </li>
-      </ul>
+        </div>
     </div>
   );
 }

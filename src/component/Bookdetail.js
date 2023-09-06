@@ -36,8 +36,10 @@ function BookDetail() {
         alert('책 대출 성공');
         const updatedBook = await fetchBookDetail();
         setBook(updatedBook);
+        handleGoBack();
     } catch (error) {
         alert('책 대출에 실패했습니다. (같은 책을 두권 이상 빌릴 수 없습니다.)', error);
+        handleGoBack();
     }
   };
 
@@ -49,8 +51,10 @@ function BookDetail() {
         alert('책 반납 성공');
         const updatedBook = await fetchBookDetail();
         setBook(updatedBook);
+        handleGoBack();
     } catch (error) {
         alert('책 반납에 실패했습니다.(대출 기록이 없는경우 반납이 불가능합니다.)', error);
+        handleGoBack();
     }
   };
 
@@ -60,8 +64,10 @@ function BookDetail() {
       await axios.post(`http://localhost:3004/extension/${bookId}`, { userId }); // userId를 함께 보냄
       // 연장 성공 메시지 또는 다른 작업 수행
       alert('대출 연장 성공');
+      handleGoBack();
     } catch (error) {
       alert('대출 연장에 실패했습니다.(대출 기록이 없는경우 연장이 불가능합니다.)', error);
+      handleGoBack();
     }
   };
   const fetchBookDetail = async () => {

@@ -331,6 +331,93 @@ app.get('/books', (req, res) => {
       res.status(200).json(result);
     });
   });
+
+  app.post('/addBook', (req, res) => {
+    // 클라이언트로부터 전달된 책 데이터
+    const { book_name, book_info, quantity } = req.body;
+  
+    // 데이터베이스에 책 추가 쿼리 실행
+    const insertBookQuery = `
+      INSERT INTO book (book_name, book_info, quantity)
+      VALUES (?, ?, ?);
+    `;
+  
+    connection.query(insertBookQuery, [book_name, book_info, quantity], (err, result) => {
+      if (err) {
+        console.error('책 추가 오류:', err);
+        return res.status(500).json({ message: '책 추가 실패' });
+      }
+  
+      console.log('책 추가 성공');
+      res.status(200).json({ message: '책 추가 성공' });
+    });
+  });
+
+  // 대출 기록 가져오기 엔드포인트
+app.get('/loanRecords', (req, res) => {
+  const query = `
+    SELECT u.username, b.book_name, l.borrowed_date, l.due_date
+    FROM loan l
+    JOIN user u ON l.user_id = u.user_id
+    JOIN book b ON l.book_id = b.book_id;
+  `;
+
+  connection.query(query, (err, result) => {
+    if (err) {
+      console.error('대출 기록 가져오기 오류:', err);
+      return res.status(500).json({ message: '대출 기록 가져오기 오류' });
+    }
+
+    res.status(200).json(result);
+  });
+});
+
+app.post('/addquantity/:bookId', (req, res) => {
+  const bookId = req.params.bookId;
+
+  // 책 정보를 가져와서 수량을 증가시키는 쿼리문 실행
+  const updateQuery = 'UPDATE book SET quantity = quantity + 1 WHERE book_id = ?';
+
+  connection.query(updateQuery, [bookId], (err, result) => {
+    if (err) {
+      console.error('책 수량 늘리기 오류:', err);
+      return res.status(500).json({ message: '책 수량 늘리기 오류' });
+    }
+    res.status(200).json({ message: '책 수량이 성공적으로 늘어났습니다.' });
+  });
+});
+
+// 책 수량 줄이기 (1권 감소)
+app.post('/decreasequantity/:bookId', (req, res) => {
+  const bookId = req.params.bookId;
+
+  // 책 정보를 가져와서 수량을 감소시키는 쿼리문 실행
+  const updateQuery = 'UPDATE book SET quantity = quantity - 1 WHERE book_id = ?';
+
+  connection.query(updateQuery, [bookId], (err, result) => {
+    if (err) {
+      console.error('책 수량 줄이기 오류:', err);
+      return res.status(500).json({ message: '책 수량 줄이기 오류' });
+    }
+    res.status(200).json({ message: '책 수량이 성공적으로 감소되었습니다.' });
+  });
+});
+
+// 책 삭제
+app.delete('/books/:bookId', (req, res) => {
+  const bookId = req.params.bookId;
+
+  // 책 정보를 삭제하는 쿼리문 실행
+  const deleteQuery = 'DELETE FROM book WHERE book_id = ?';
+
+  connection.query(deleteQuery, [bookId], (err, result) => {
+    if (err) {
+      console.error('책 삭제 오류:', err);
+      return res.status(500).json({ message: '책 삭제 오류' });
+    }
+    res.status(200).json({ message: '책이 성공적으로 삭제되었습니다.' });
+  });
+});
   
  
 
