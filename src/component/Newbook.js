@@ -43,7 +43,7 @@ function Newbook() {
       <h2>새로운 책 추가</h2>
       <form>
         <div>
-          <label>책 제목:</label>
+          <label>책 제목: </label>
           <input
             type="text"
             name="book_name"
@@ -52,23 +52,25 @@ function Newbook() {
           />
         </div>
         <div>
-          <label>책 정보:</label>
+          <label>책 정보: </label>
           <textarea
             name="book_info"
             value={book.book_info}
+            style={{marginTop:'2%'}}
             onChange={handleInputChange}
           />
         </div>
         <div>
-          <label>권수:</label>
+          <label>권수: </label>
           <input
             type="number"
             name="quantity"
             value={book.quantity}
+            style={{marginLeft:'7.2%'}}
             onChange={handleInputChange}
           />
         </div>
-        <button type="button" onClick={handleAddBook}>
+        <button style={{marginRight:'5px', marginTop:'2%'}} type="button" onClick={handleAddBook}>
           책 추가
         </button>
         <button onClick={handleGoBack}>이전페이지</button>

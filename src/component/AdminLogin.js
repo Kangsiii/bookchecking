@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 function AdminLogin() {
+  const handleSignin = () => {
+    window.history.pushState({}, '', '/Signup');
+    window.location.reload(); // 페이지 새로고침
+  }
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');   
     const [loggedIn, setLoggedIn] = useState(false);
@@ -34,7 +38,7 @@ function AdminLogin() {
         <h2>관리자 로그인</h2>
         <form>
           <div>
-            <label htmlFor="username">사용자 이름:</label>
+            <label htmlFor="username">사용자 이름: </label>
             <input
               type="text"
               id="username"
@@ -43,18 +47,20 @@ function AdminLogin() {
             />
           </div>
           <div>
-            <label htmlFor="password">비밀번호:</label>
+            <label htmlFor="password">비밀번호: </label>
             <input
               type="password"
               id="password"
+              style={{marginLeft:'4.9%', marginTop:'2%'}}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button type="button" onClick={handleLogin}>
+          <br></br>
+          <button type="button" style={{marginRight:'5px'}} onClick={handleLogin}>
             로그인
           </button>
-          <Link to="/signup">회원가입</Link>
+          <button className='loginbutton' onClick={handleSignin}>회원가입</button>
         </form>
       </div>
     );

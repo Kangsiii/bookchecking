@@ -92,9 +92,9 @@ function BookDetail() {
       <p>책 ID: {book.book_id}</p>
       <p>책 설명: {book.book_info}</p>
       <p>수량: {book.quantity}</p>
-      <button onClick={handleBorrow}>대출</button>
-      <button onClick={handleReturn}>반납</button>
-      <button onClick={handleExtension}>연장</button>
+      <button style={{marginRight:'2%'}} onClick={handleBorrow}>대출</button>
+      <button style={{marginRight:'2%'}} onClick={handleReturn}>반납</button>
+      <button style={{marginRight:'2%'}} onClick={handleExtension}>연장</button>
       <button onClick={handleGoBack}>이전페이지</button>
     </div>
   );
