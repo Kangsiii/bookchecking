@@ -66,10 +66,10 @@ function Newbook() {
             type="number"
             name="quantity"
             value={book.quantity}
-            style={{marginLeft:'7.2%'}}
+            style={{marginLeft:'5%'}}
             onChange={handleInputChange}
           />
-        </div>
+        </div><br></br>
         <button style={{marginRight:'5px', marginTop:'2%'}} type="button" onClick={handleAddBook}>
           책 추가
         </button>

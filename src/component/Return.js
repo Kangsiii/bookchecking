@@ -67,7 +67,8 @@ function Return() {
 
                 return (
                   <li key={book.book_id}>
-                    <a href={`/books/${book.book_id}`}>
+                    <a style={{textDecoration:'none', color:'black', backgroundColor:'#AAAAAA'}}
+                    href={`/books/${book.book_id}`}>
                       {book.book_name}<br />
                       대출일: {borrowedDateString}<br />
                       반납일: {dueDateString}
