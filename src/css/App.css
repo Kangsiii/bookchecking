@@ -6,7 +6,7 @@ body {
     align-items: center; /* 가운데 정렬 */
     min-height: 100vh; /* 화면 전체 높이 */
     background-color: #f0f0f0; /* 배경색 설정 */
-    
+     
   }
   
   .app-container {
