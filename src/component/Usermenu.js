@@ -7,7 +7,7 @@ function Usermenu() {
     // 로컬 스토리지에서 username 값 삭제
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
-
+  
     // 홈 화면으로 리다이렉트
     window.location.href = '/';};
   

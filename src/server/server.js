@@ -6,7 +6,7 @@ const PORT = 3004;
 const bodyParser = require('body-parser');
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:3001',
   credentials: true,
 }));
 app.use(express.json());
@@ -14,7 +14,7 @@ app.use(express.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '1234',
+  password: '0000',
   database: 'book'
 });
 
