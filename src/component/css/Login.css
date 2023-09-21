@@ -1,9 +1,13 @@
 @font-face {
-    font-family: "garam";
-    src: url(../../Asset/garam.ttf);
+    font-family: "Cafe24Dangdanghae-v2.0";
+    src: url(../../Asset/Cafe24Dangdanghae-v2.0.woff);
 }
 
 .loginbutton {
     margin-right:5px;
+}
+
+.pannel container{
+    padding: 50px;
 }
 
