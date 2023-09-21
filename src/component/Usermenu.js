@@ -1,4 +1,7 @@
 import React from 'react';
+import { FaBookMedical } from "react-icons/fa";
+import { GrLogout } from "react-icons/gr";
+import { CgProfile } from "react-icons/cg";
 
 function Usermenu() {
   const username = localStorage.getItem('username'); 
@@ -16,19 +19,34 @@ function Usermenu() {
       return null; // 이후 코드 실행을 막기 위해 null 반환
     }
 
+    const redirectToBooklist = () => {
+      window.location.href = '/Booklist';
+    }
+
+    const mypagelist = () => {
+      window.location.href = '/Return'
+    }
+
   return (
     <div>
       <h2>{username}님 환영합니다</h2>
       <br></br>
-        <div>
-          <button onClick={handleLogout}>홈(로그아웃)</button>
+        <div style={{ display:'flex',flexDirection: 'row', alignItems: 'center', }}>
+          <FaBookMedical style={{ fontSize: '75px', marginLeft:'40px', marginRight:'50px' }} onClick={redirectToBooklist} />
         <br></br>
-          <button style={{marginTop:'2%'}} onClick={() => window.location.href = '/Booklist'}>도서 목록(대출)</button>
+          <CgProfile style={{ fontSize: '85px' , marginRight:'50px' }} onClick={mypagelist}/>
         <br></br>
-          <button style={{marginTop:'2%'}} onClick={() => window.location.href = '/Return'}>마이페이지(반납 및 연장)</button>
+          <GrLogout style={{ fontSize: '85px',  marginRight:'45px' }}  onClick={handleLogout} />
+        </div>
+        <div style={{display:'flex', flexDirection: 'row', alignItems: 'center',}}>
+          <p style={{ fontSize:'17px' ,marginLeft:'45px' , marginRight:'50px'}}>책 목록</p>
+          <p style={{ fontSize:'17px' ,marginLeft:'18px' , marginRight:'50px'}}>내 정보</p>
+          <p>로그아웃</p>
         </div>
     </div>
   );
 }
+
+
 
 export default Usermenu;
